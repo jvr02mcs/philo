@@ -5,6 +5,7 @@ NC = \033[0m
 SRC = main.c\
 	utils.c\
 	ft_atol.c\
+	parser.c\
 
 OBJS = $(SRC:.c=.o)
 HEADERS = philo.h 
