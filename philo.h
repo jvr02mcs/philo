@@ -2,8 +2,9 @@
 # define PHILO_H
 # include <pthread.h>
 # include <sys/wait.h>
-# include <limits.h>
 # include <sys/types.h>
+# include <sys/time.h>
+# include <limits.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -18,6 +19,8 @@ typedef struct s_times
 
 typedef struct s_philo
 {
+	t_times	time_to;
+	int		n_of_the_philo;
 	pthread_t		thread;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
@@ -26,7 +29,6 @@ typedef struct s_philo
 typedef struct s_program
 {
 	t_philo	*philos;
-	t_times	times_to;
 	size_t	n_of_philos;
 }	t_program;
 
