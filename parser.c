@@ -1,5 +1,7 @@
 #include "philo.h"
-
+/*
+	what about the minimum number of milliseconds?
+*/
 static int	arg_not_digit(char *arg)
 {
 	size_t	i;
@@ -31,9 +33,9 @@ int	args_not_valid(int argc, char **argv)
 	while (argv[i])
 	{
 		if (ft_strncmp(argv[i], "", ft_strlen(argv[i])) == 0)
-			return (2);
+			return (1);
 		if (arg_not_digit(argv[i]))
-			return (3);
+			return (1);
 		i++;
 	}
 	return (0);	

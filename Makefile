@@ -3,9 +3,13 @@ YELLOW = \033[0;33m
 RED = \033[0;31m
 NC = \033[0m
 SRC = main.c\
+	init.c\
 	utils.c\
-	ft_atol.c\
+	error.c\
 	parser.c\
+	ft_atol.c\
+	asign_times.c\
+	mutex_action.c\
 
 OBJS = $(SRC:.c=.o)
 HEADERS = philo.h 
