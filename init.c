@@ -1,37 +1,26 @@
 #include "philo.h"
 
-static void	asign_fork(t_philo *philo, t_fork *fork, size_t i, size_t n)
-{
-	size_t	fn;
-
-	sleep(1);
-	fn = i;
-	philo->l_fork = &fork[fn];
-	printf("philosopher[%ld] has fork[%ld] for l hand\n", i + 1, fn);
-	fn = 0;
-	sleep(1);
-	if (philo->n != n)
-		fn = philo->n;
-	philo->r_fork = &fork[fn];
-	printf("philosopher[%ld] has fork[%ld] for r hand\n", i + 1, fn);
-}
-static int	init_forks(t_data	*data)
+static int	init_forks(t_data *data)
 {
 	size_t	i;
-	int		ret;
 
 	i = 0;
 	while (i < data->n_of_philos)
 	{
-		ret = mutex_action(&data->forks[i].fork, 2);
-		if (ret != 0)
-			return (ft_error_in_mutex(ret, 1));
-		printf("fork[%ld] initialized\n", i);
-		sleep(1);
-		data->forks[i].n = i;
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+			return (1);
 		i++;
 	}
 	return (0);
+}
+
+static void asign_forks(t_philo *philo, size_t i, size_t n)
+{
+	philo->l_fork = i;
+	if (i + 1 == n)
+		philo->r_fork = 0;
+	else
+		philo->r_fork = i + 1;
 }
 
 static void	init_philo(t_data	*data)
@@ -43,8 +32,8 @@ static void	init_philo(t_data	*data)
 		data->philo[i].n = i + 1;
 		data->philo[i].ended = 0;
 		data->philo[i].meals = 0;
-		printf("n of philo = %ld, ended : %d, meals %ld\n", data->philo[i].n, data->philo[i].ended, data->philo[i].meals);
-		asign_fork(&data->philo[i], &data->forks[i], i, data->n_of_philos);
+		asign_forks(&data->philo[i], i, data->n_of_philos);
+		data->philo[i].data = data;
 		i++;
 	}
 }
@@ -53,15 +42,17 @@ int	init_all(t_data	*data, int argc, char **argv)
 {
 	data->n_of_philos = ft_atol(argv[1]);
 	data->time_to = asign_times(argv + 1, argc - 2);
-	data->start_time = 'x';
+	data->start_time = get_time();
 	data->end = 0;
-	data->forks = malloc(sizeof(t_fork) * data->n_of_philos);
-	if (!data->forks)
-		return (ft_error("Forks memory alloc"));
+	pthread_mutex_init(&data->mwrite, NULL);
 	data->philo = malloc(sizeof(t_philo) * data->n_of_philos);
 	if (!data->philo)
-		return (ft_error("Philos memory alloc"));
-	init_forks(data);
+		return (ft_error("Philos memory alloc failed"));
+	data->forks = malloc(sizeof(t_fork) * data->n_of_philos);
+	if (!data->forks)
+		return	(ft_error("Forks memory alloc failed"));
+	if (init_forks(data))
+		return (ft_error("Forks initialization failed"));
 	init_philo(data);
 	return (0);
 }

@@ -9,15 +9,16 @@
 # include <stdlib.h>
 # include <stdio.h>
 
+typedef struct s_data t_data;
+typedef pthread_mutex_t t_mutex;
+
 typedef struct s_times
 {
 	size_t	eat;
 	size_t	sleep;
 	size_t	die;
-	size_t	each;
+	size_t	meals4each;
 }	t_times;
-
-typedef pthread_mutex_t t_mutex;
 
 typedef struct s_fork
 {
@@ -30,9 +31,12 @@ typedef struct s_philo
 	size_t		n;
 	size_t		meals;
 	int			ended;
-	pthread_t		thread;
-	t_fork	*r_fork;
-	t_fork	*l_fork;
+	pthread_t	thread;
+	size_t		r_fork;
+	size_t		l_fork;
+	size_t		last_time;
+	t_mutex		eating;
+	t_data	*data;
 }					t_philo;
 
 typedef struct s_data
@@ -41,10 +45,12 @@ typedef struct s_data
 	size_t	n_of_philos;
 	size_t	start_time;
 	int		end ;
-	t_fork	*forks;
+	t_mutex	mwrite;
+	t_mutex	*forks;
 	t_philo	*philo;
 }	t_data;
 
+size_t	get_time(void);
 int	ft_error(char *error);
 size_t	ft_strlen(char *s);
 long	ft_atol(const char *str);
