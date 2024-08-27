@@ -14,13 +14,16 @@ static int	init_forks(t_data *data)
 	return (0);
 }
 
-static void asign_forks(t_philo *philo, size_t i, size_t n)
+static void asign_forks(t_philo *philo, size_t n)
 {
-	philo->l_fork = i;
-	if (i + 1 == n)
-		philo->r_fork = 0;
+	if (philo->n == 1 && n != 1)
+		philo->l_fork = n;
 	else
-		philo->r_fork = i + 1;
+		philo->l_fork = philo->n - 1;
+	printf("philo[%ld], [%ld]left\n", philo->n, philo->l_fork);
+	philo->r_fork = philo->n;
+	printf("philo[%ld], [%ld]right, %ld\n", philo->n, philo->r_fork, n);
+	printf("---------------\n");
 }
 
 static void	init_philo(t_data	*data)
@@ -32,8 +35,9 @@ static void	init_philo(t_data	*data)
 		data->philo[i].n = i + 1;
 		data->philo[i].ended = 0;
 		data->philo[i].meals = 0;
-		asign_forks(&data->philo[i], i, data->n_of_philos);
+		asign_forks(&data->philo[i], data->n_of_philos);
 		data->philo[i].data = data;
+		sleep(1);
 		i++;
 	}
 }

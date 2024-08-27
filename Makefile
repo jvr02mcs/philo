@@ -9,7 +9,6 @@ SRC = main.c\
 	parser.c\
 	ft_atol.c\
 	asign_times.c\
-	mutex_action.c\
 
 OBJS = $(SRC:.c=.o)
 HEADERS = philo.h 
