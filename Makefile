@@ -36,6 +36,7 @@ $(NAME):
 
 	@echo "$(NC)"
 	@gcc $(FLAGS) -o $(NAME) $(SRC)
+	
 clean:
 	
 	@echo "$(RED)"
