@@ -14,13 +14,12 @@ typedef pthread_mutex_t t_mutex;
 
 typedef struct s_times
 {
+	size_t	n_of_philos;
 	size_t	eat;
 	size_t	sleep;
 	size_t	die;
 	size_t	meals4each;
 }	t_times;
-
-
 
 typedef struct s_philo
 {
@@ -30,13 +29,12 @@ typedef struct s_philo
 	size_t		r_fork;
 	size_t		l_fork;
 	size_t		last_time;
-	t_data	*data;
-}					t_philo;
+	t_data		*data;
+}	t_philo;
 
 typedef struct s_data
 {
 	t_times	time_to;
-	size_t	n_of_philos;
 	size_t	start_time;
 	t_mutex	mwrite;
 	t_mutex	*forks;
