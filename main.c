@@ -1,16 +1,17 @@
 #include "philo.h"
 
-void	print_mes(t_data *data, size_t philo_n, char *mes)
+void	print_mes(t_philo *philo, size_t philo_n, char *mes)
 {
-	pthread_mutex_lock(&data->mwrite);
-	printf("%ld philo %ld %s", data->start_time, philo_n, mes);
+	philo->time = get_time();
+	pthread_mutex_lock(&philo->data->mwrite);
+	printf("%ld philo %ld %s", philo->time, philo_n, mes);
 }
 
 void	take_fork(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->forks[philo->l_fork]);
-	print_mes(philo->data, philo->n, "has taken a fork\n");
-	sleep(1);
+	print_mes(philo, philo->n, "has taken a fork\n");
+	sleep(2);
 	pthread_mutex_unlock(&philo->data->forks[philo->l_fork]);
 	pthread_mutex_unlock(&philo->data->mwrite);
 }

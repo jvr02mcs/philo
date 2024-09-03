@@ -30,6 +30,7 @@ typedef struct s_philo
 {
 	size_t		n;
 	size_t		meals;
+	size_t		time;
 	int			ended;
 	pthread_t	thread;
 	size_t		r_fork;
