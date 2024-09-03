@@ -2,18 +2,14 @@
 
 void	print_mes(t_philo *philo, size_t philo_n, char *mes)
 {
-	philo->time = get_time();
+	philo->last_time = get_time();
 	pthread_mutex_lock(&philo->data->mwrite);
-	printf("%ld philo %ld %s", philo->time, philo_n, mes);
+	printf("%ld philo %ld %s\n", philo->last_time, philo_n, mes);
 }
 
 void	take_fork(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->forks[philo->l_fork]);
-	print_mes(philo, philo->n, "has taken a fork\n");
-	sleep(2);
-	pthread_mutex_unlock(&philo->data->forks[philo->l_fork]);
-	pthread_mutex_unlock(&philo->data->mwrite);
+	print_mes(philo, philo->n, "has taken a fork");
 }
 
 void	*routine(void *arg)
@@ -22,6 +18,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	take_fork(philo);
+	pthread_mutex_unlock(&philo->data->mwrite);
 	return(NULL);
 }
 
@@ -53,6 +50,7 @@ int main(int argc, char **argv)
 		return (ft_error("Data can't be initialized"));
 	philosophers(&data);
 	pthread_mutex_destroy(&data.mwrite);
+
 	free(data.philo);
 	free(data.forks);
 	return (0);

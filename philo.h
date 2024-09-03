@@ -20,23 +20,16 @@ typedef struct s_times
 	size_t	meals4each;
 }	t_times;
 
-typedef struct s_fork
-{
-	t_mutex	fork;
-	size_t	n;
-}	t_fork;
+
 
 typedef struct s_philo
 {
 	size_t		n;
 	size_t		meals;
-	size_t		time;
-	int			ended;
 	pthread_t	thread;
 	size_t		r_fork;
 	size_t		l_fork;
 	size_t		last_time;
-	t_mutex		eating;
 	t_data	*data;
 }					t_philo;
 
@@ -45,7 +38,6 @@ typedef struct s_data
 	t_times	time_to;
 	size_t	n_of_philos;
 	size_t	start_time;
-	int		end ;
 	t_mutex	mwrite;
 	t_mutex	*forks;
 	t_philo	*philo;
