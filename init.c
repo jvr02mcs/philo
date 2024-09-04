@@ -5,10 +5,11 @@ static int	init_forks(t_data *data)
 	size_t	i;
 
 	i = 0;
-	while (i < data->time_to.n_of_philos)
+	while (i + 1 < data->n_of_philos)
 	{
-		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+		if (pthread_mutex_init(&data->forks[i].fork, NULL) != 0)
 			return (1);
+		data->forks[i].in_use = 0;
 		i++;
 	}
 	return (0);
@@ -30,12 +31,13 @@ static void	init_philo(t_data	*data)
 {
 	size_t	i;
 	i = 0;
-	while (i < data->time_to.n_of_philos)
+	while (i < data->n_of_philos)
 	{
 		data->philo[i].n = i + 1;
 		data->philo[i].meals = 0;
 		data->philo[i].last_time = 0;
-		asign_forks(&data->philo[i], i, data->time_to.n_of_philos);
+		pthread_mutex_init(&data->philo[i].eating, NULL);
+		asign_forks(&data->philo[i], i, data->n_of_philos);
 		data->philo[i].data = data;
 		sleep(1);
 		i++;
@@ -44,14 +46,14 @@ static void	init_philo(t_data	*data)
 
 int	init_all(t_data	*data, int argc, char **argv)
 {
-	data->time_to.n_of_philos = ft_atol(argv[1]);
+	data->n_of_philos = ft_atol(argv[1]);
 	data->time_to = asign_times(argv + 1, argc - 2);
 	data->start_time = get_time();
 	pthread_mutex_init(&data->mwrite, NULL);
-	data->philo = malloc(sizeof(t_philo) * data->time_to.n_of_philos);
+	data->philo = malloc(sizeof(t_philo) * data->n_of_philos);
 	if (!data->philo)
 		return (ft_error("Philos memory alloc failed"));
-	data->forks = malloc(sizeof(t_mutex) * data->time_to.n_of_philos);
+	data->forks = malloc(sizeof(t_fork) * data->n_of_philos);
 	if (!data->forks)
 		return	(ft_error("Forks memory alloc failed"));
 	if (init_forks(data))

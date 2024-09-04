@@ -14,7 +14,6 @@ typedef pthread_mutex_t t_mutex;
 
 typedef struct s_times
 {
-	size_t	n_of_philos;
 	size_t	eat;
 	size_t	sleep;
 	size_t	die;
@@ -24,21 +23,33 @@ typedef struct s_times
 typedef struct s_philo
 {
 	size_t		n;
+	t_mutex		eating;
+	int			is_dead;
 	size_t		meals;
 	pthread_t	thread;
+	size_t		start;
+	size_t		end;
 	size_t		r_fork;
 	size_t		l_fork;
 	size_t		last_time;
 	t_data		*data;
 }	t_philo;
 
+typedef struct s_fork
+{
+	int		in_use;
+	t_mutex	fork;
+}	t_fork;
+
 typedef struct s_data
 {
-	t_times	time_to;
-	size_t	start_time;
-	t_mutex	mwrite;
-	t_mutex	*forks;
-	t_philo	*philo;
+	size_t		n_of_philos;
+	t_times		time_to;
+	size_t		start_time;
+	t_mutex		mwrite;
+	pthread_t	m_thread;
+	t_fork		*forks;
+	t_philo		*philo;
 }	t_data;
 
 size_t	get_time(void);

@@ -10,6 +10,6 @@ t_times	asign_times(char **arg, int n)
 	if (n == 4)
 		time_to.meals4each = ft_atol(arg[4]);
 	else
-		time_to.meals4each = 0;
+		time_to.meals4each = 1;
 	return (time_to);
 }
