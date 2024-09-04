@@ -1,11 +1,10 @@
 #include "philo.h"
 
-void	print_mes(t_philo *philo, size_t philo_n, char *mes)
+void	print_mes(t_data *d, size_t philo_n, char *mes)
 {
-	pthread_mutex_lock(&philo->data->mwrite);
-	philo->last_time = get_time();
-	printf("%ld philo %ld %s\n", philo->last_time, philo_n, mes);
-	pthread_mutex_unlock(&philo->data->mwrite);
+	pthread_mutex_lock(&d->mwrite);
+	printf("%ld philo %ld %s\n", get_time() - d->start_time, philo_n, mes);
+	pthread_mutex_unlock(&d->mwrite);
 }
 
 void	take_fork(t_philo *philo)
@@ -13,47 +12,63 @@ void	take_fork(t_philo *philo)
 	if (philo->n % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->data->forks[philo->l_fork].fork);
-		print_mes(philo, philo->n, "has taken left fork");
+		print_mes(philo->data, philo->n, "has taken left fork");
+		pthread_mutex_lock(&philo->data->m_thread);
+		philo->data->forks[philo->l_fork].in_use = 1;
+		pthread_mutex_unlock(&philo->data->m_thread);
+		
 		pthread_mutex_lock(&philo->data->forks[philo->r_fork].fork);
-		print_mes(philo, philo->n, "has taken right fork");
+		print_mes(philo->data, philo->n, "has taken right fork");
+		pthread_mutex_lock(&philo->data->m_thread);
+		philo->data->forks[philo->r_fork].in_use = 1;
+		pthread_mutex_unlock(&philo->data->m_thread);
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->data->forks[philo->r_fork].fork);
-		print_mes(philo, philo->n, "has taken right fork");
+		pthread_mutex_lock(&philo->data->m_thread);
+		philo->data->forks[philo->r_fork].in_use = 1;
+		pthread_mutex_unlock(&philo->data->m_thread);
+		print_mes(philo->data, philo->n, "has taken right fork");
+		
 		pthread_mutex_lock(&philo->data->forks[philo->l_fork].fork);
-		print_mes(philo, philo->n, "has taken left fork");
+		print_mes(philo->data, philo->n, "has taken left fork");
+		pthread_mutex_lock(&philo->data->m_thread);
+		philo->data->forks[philo->l_fork].in_use = 1;
+		pthread_mutex_unlock(&philo->data->m_thread);
 	}
 }
 
 void	eating(t_philo *philo)
 {
+	t_fork	*forkk;
+
+	forkk = philo->data->forks;
 	pthread_mutex_lock(&philo->eating);
 	pthread_mutex_lock(&philo->data->mwrite);
 	philo->meals++;
 	pthread_mutex_unlock(&philo->data->mwrite);
-	print_mes(philo, philo->n, "is eating");
-	philo->last_time = get_time();
+	print_mes(philo->data, philo->n, "is eating");
 	ft_msleep(philo->data->time_to.eat);
 	pthread_mutex_unlock(&philo->eating);
 }
 
 void	sleeping(t_philo *philo)
 {
-	print_mes(philo, philo->n, "is sleeping");
+	print_mes(philo->data, philo->n, "is sleeping");
 	ft_msleep(philo->data->time_to.sleep);
 }
 
 void	thinking(t_philo *philo)
 {
-	print_mes(philo, philo->n, "is thinking");
+	print_mes(philo->data, philo->n, "is thinking");
 }
 
-void	leave_fork(t_philo *philo)
-{
-	pthread_mutex_unlock(&philo->data->forks[philo->l_fork].fork);
-	pthread_mutex_unlock(&philo->data->forks[philo->r_fork].fork);
-}
+//void	leave_fork(t_philo *philo)
+//{
+//	pthread_mutex_unlock(&philo->data->forks[philo->l_fork].fork);
+//	pthread_mutex_unlock(&philo->data->forks[philo->r_fork].fork);
+//}
 
 void	*routine(void *arg)
 {
@@ -64,7 +79,9 @@ void	*routine(void *arg)
 	{
 		take_fork(philo);
 		eating(philo);
-		leave_fork(philo);
+		//leave_fork(philo);
+		pthread_mutex_unlock(&philo->data->forks[philo->l_fork].fork);
+		pthread_mutex_unlock(&philo->data->forks[philo->r_fork].fork);
 		sleeping(philo);
 		thinking(philo);
 	}
@@ -79,14 +96,12 @@ void	philosophers(t_data *data)
 	while (i < data->n_of_philos)
 	{
 		pthread_create(&data->philo[i].thread, NULL, &routine, &data->philo[i]);
-		ft_msleep(1);
 		i++;
 	}
 	i = 0;
 	while (i < data->n_of_philos)
 	{
 		pthread_join(data->philo[i].thread, NULL);
-		ft_msleep(1);
 		i++;
 	}
 }

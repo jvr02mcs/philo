@@ -54,7 +54,6 @@ int	init_all(t_data	*data, int argc, char **argv)
 		data->meals4each = ft_atol(argv[5]);
 	else
 		data->meals4each = 0;
-	data->start_time = get_time();
 	pthread_mutex_init(&data->mwrite, NULL);
 	data->philo = malloc(sizeof(t_philo) * data->n_of_philos);
 	if (!data->philo)
@@ -65,5 +64,6 @@ int	init_all(t_data	*data, int argc, char **argv)
 	if (init_forks(data))
 		return (ft_error("Forks initialization failed"));
 	init_philo(data);
+	data->start_time = get_time();
 	return (0);
 }
