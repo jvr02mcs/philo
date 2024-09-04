@@ -12,30 +12,20 @@ void	take_fork(t_philo *philo)
 {
 	if (philo->n % 2 == 0)
 	{
-		if (philo->l_fork >= 0)
-		{
-			pthread_mutex_lock(&philo->data->forks[philo->l_fork].fork);
-			print_mes(philo, philo->n, "has taken left fork");
-		}
-			pthread_mutex_lock(&philo->data->forks[philo->r_fork].fork);
-			print_mes(philo, philo->n, "has taken right fork");
+		pthread_mutex_lock(&philo->data->forks[philo->l_fork].fork);
+		print_mes(philo, philo->n, "has taken left fork");
+		pthread_mutex_lock(&philo->data->forks[philo->r_fork].fork);
+		print_mes(philo, philo->n, "has taken right fork");
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->data->forks[philo->r_fork].fork);
 		print_mes(philo, philo->n, "has taken right fork");
-		if (philo->l_fork >= 0)
-		{
-			pthread_mutex_lock(&philo->data->forks[philo->l_fork].fork);
-			print_mes(philo, philo->n, "has taken left fork");
-		}
+		pthread_mutex_lock(&philo->data->forks[philo->l_fork].fork);
+		print_mes(philo, philo->n, "has taken left fork");
 	}
 }
 
-void	ft_msleep(size_t usec)
-{
-	usleep(usec * 1000);
-}
 void	eating(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->eating);
@@ -70,7 +60,7 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (philo->meals < philo->data->time_to.meals4each)
+	while (1)
 	{
 		take_fork(philo);
 		eating(philo);
@@ -81,28 +71,6 @@ void	*routine(void *arg)
 	return(NULL);
 }
 
-void	*monitor(void *arg)
-{
-	t_data	*data;
-	size_t	i;
-
-	data = (t_data *)arg;
-	i = 0;
-	while (1)
-	{
-		while (i < data->n_of_philos)
-		{
-			if (data->philo[i].is_dead)
-			{
-				print_mes(&data->philo[i], data->philo[i].n, "died");
-				return (NULL);
-			}
-			i++;
-		}
-	}
-	usleep(1000);
-}
-
 void	philosophers(t_data *data)
 {
 	size_t	i;
@@ -111,12 +79,14 @@ void	philosophers(t_data *data)
 	while (i < data->n_of_philos)
 	{
 		pthread_create(&data->philo[i].thread, NULL, &routine, &data->philo[i]);
+		ft_msleep(1);
 		i++;
 	}
 	i = 0;
 	while (i < data->n_of_philos)
 	{
 		pthread_join(data->philo[i].thread, NULL);
+		ft_msleep(1);
 		i++;
 	}
 }

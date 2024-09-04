@@ -17,7 +17,6 @@ typedef struct s_times
 	size_t	eat;
 	size_t	sleep;
 	size_t	die;
-	size_t	meals4each;
 }	t_times;
 
 typedef struct s_philo
@@ -28,7 +27,7 @@ typedef struct s_philo
 	size_t		meals;
 	pthread_t	thread;
 	size_t		start;
-	size_t		end;
+	int			finished;
 	size_t		r_fork;
 	size_t		l_fork;
 	size_t		last_time;
@@ -45,9 +44,11 @@ typedef struct s_data
 {
 	size_t		n_of_philos;
 	t_times		time_to;
+	size_t		meals4each;
 	size_t		start_time;
+	int			end;
 	t_mutex		mwrite;
-	pthread_t	m_thread;
+	t_mutex		m_thread;
 	t_fork		*forks;
 	t_philo		*philo;
 }	t_data;
@@ -56,8 +57,8 @@ size_t	get_time(void);
 int	ft_error(char *error);
 size_t	ft_strlen(char *s);
 long	ft_atol(const char *str);
-t_times	asign_times(char **arg, int n);
-int		mutex_action(t_mutex *mutex, int f);
+t_times	asign_times(char **arg);
+void	ft_msleep(size_t usec);
 int		ft_error_in_mutex(int error, int w);
 int		args_not_valid(int argc, char **argv);
 int		init_all(t_data	*data, int argc, char **argv);

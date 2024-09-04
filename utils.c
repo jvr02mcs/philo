@@ -17,6 +17,10 @@ size_t	ft_strlen(char *s)
 		i++;
 	return (i);
 }
+void	ft_msleep(size_t usec)
+{
+	usleep(usec * 1000);
+}
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

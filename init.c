@@ -35,6 +35,7 @@ static void	init_philo(t_data	*data)
 	{
 		data->philo[i].n = i + 1;
 		data->philo[i].meals = 0;
+		data->philo[i].finished = 0;
 		data->philo[i].last_time = 0;
 		pthread_mutex_init(&data->philo[i].eating, NULL);
 		asign_forks(&data->philo[i], i, data->n_of_philos);
@@ -47,7 +48,12 @@ static void	init_philo(t_data	*data)
 int	init_all(t_data	*data, int argc, char **argv)
 {
 	data->n_of_philos = ft_atol(argv[1]);
-	data->time_to = asign_times(argv + 1, argc - 2);
+	data->end = 0;
+	data->time_to = asign_times(argv);
+	if (argc == 6)
+		data->meals4each = ft_atol(argv[5]);
+	else
+		data->meals4each = 0;
 	data->start_time = get_time();
 	pthread_mutex_init(&data->mwrite, NULL);
 	data->philo = malloc(sizeof(t_philo) * data->n_of_philos);
