@@ -41,13 +41,10 @@ void	take_fork(t_philo *philo)
 
 void	eating(t_philo *philo)
 {
-	t_fork	*forkk;
+	//t_fork	*forkk;
 
-	forkk = philo->data->forks;
+	//forkk = philo->data->forks;
 	pthread_mutex_lock(&philo->eating);
-	pthread_mutex_lock(&philo->data->mwrite);
-	philo->meals++;
-	pthread_mutex_unlock(&philo->data->mwrite);
 	print_mes(philo->data, philo->n, "is eating");
 	ft_msleep(philo->data->time_to.eat);
 	pthread_mutex_unlock(&philo->eating);
@@ -64,11 +61,11 @@ void	thinking(t_philo *philo)
 	print_mes(philo->data, philo->n, "is thinking");
 }
 
-//void	leave_fork(t_philo *philo)
-//{
-//	pthread_mutex_unlock(&philo->data->forks[philo->l_fork].fork);
-//	pthread_mutex_unlock(&philo->data->forks[philo->r_fork].fork);
-//}
+void	leave_fork(t_philo *philo)
+{
+	pthread_mutex_unlock(&philo->data->forks[philo->l_fork].fork);
+	pthread_mutex_unlock(&philo->data->forks[philo->r_fork].fork);
+}
 
 void	*routine(void *arg)
 {
@@ -79,9 +76,7 @@ void	*routine(void *arg)
 	{
 		take_fork(philo);
 		eating(philo);
-		//leave_fork(philo);
-		pthread_mutex_unlock(&philo->data->forks[philo->l_fork].fork);
-		pthread_mutex_unlock(&philo->data->forks[philo->r_fork].fork);
+		leave_fork(philo);
 		sleeping(philo);
 		thinking(philo);
 	}
