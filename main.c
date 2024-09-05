@@ -9,9 +9,9 @@ void	print_mes(t_data *d, size_t philo_n, char *mes)
 
 void	take_fork(t_philo *philo)
 {
-		pthread_mutex_lock(&philo->data->forks[philo->l_fork].fork);
+		pthread_mutex_lock(&philo->data->forks[philo->l_fork]);
 		print_mes(philo->data, philo->n, "has taken left fork");
-		pthread_mutex_lock(&philo->data->forks[philo->r_fork].fork);
+		pthread_mutex_lock(&philo->data->forks[philo->r_fork]);
 		print_mes(philo->data, philo->n, "has taken right fork");
 }
 
@@ -41,8 +41,8 @@ void	thinking(t_philo *philo)
 
 void	leave_fork(t_philo *philo)
 {
-	pthread_mutex_unlock(&philo->data->forks[philo->l_fork].fork);
-	pthread_mutex_unlock(&philo->data->forks[philo->r_fork].fork);
+	pthread_mutex_unlock(&philo->data->forks[philo->l_fork]);
+	pthread_mutex_unlock(&philo->data->forks[philo->r_fork]);
 }
 
 int	death(t_philo *philo, size_t meals4each)
@@ -51,11 +51,16 @@ int	death(t_philo *philo, size_t meals4each)
 
 	
 	curr = (get_time() - philo->data->start_time);
-	if (curr - philo->last_time >= philo->data->time_to.die)
+	if (curr - philo->last_time > philo->data->time_to.die)
 	{
 		print_mes(philo->data, philo->n, "died");
-		if (!(meals4each > 0))
+		if (meals4each == 0)
+		{
+			pthread_mutex_lock(&philo->data->mwrite);
+			philo->data->end = 1;
+			pthread_mutex_unlock(&philo->data->mwrite);
 			return (1);
+		}
 	}
 	if (meals4each > 0)
 	{
@@ -75,10 +80,9 @@ void	*routine(void *arg)
 	while (!death(philo, philo->data->meals4each))
 	{
 		if (philo->n % 2 != 0)
-			ft_msleep(philo->data->time_to.eat);
+			ft_msleep(philo->data->time_to.eat / 2);
 		take_fork(philo);
 		eating(philo);
-		death(philo, philo->data->meals4each);
 		leave_fork(philo);
 		sleeping(philo);
 		thinking(philo);
@@ -118,6 +122,18 @@ void	philosophers(t_data *data)
 	//pthread_join(data->m_thread, NULL);
 }
 
+void	destroy_forks(t_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data->n_of_philos)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+}
+
 int main(int argc, char **argv)
 {
 	t_data data;
@@ -127,6 +143,7 @@ int main(int argc, char **argv)
 	if (init_all(&data, argc, argv))
 		return (ft_error("Data can't be initialized"));
 	philosophers(&data);
+	destroy_forks(&data);
 	pthread_mutex_destroy(&data.mwrite);
 	free(data.philo);
 	free(data.forks);

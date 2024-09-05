@@ -34,12 +34,6 @@ typedef struct s_philo
 	t_data		*data;
 }	t_philo;
 
-typedef struct s_fork
-{
-	int		in_use;
-	t_mutex	fork;
-}	t_fork;
-
 typedef struct s_data
 {
 	size_t		n_of_philos;
@@ -49,7 +43,7 @@ typedef struct s_data
 	int			end;
 	t_mutex		mwrite;
 	pthread_t	m_thread;
-	t_fork		*forks;
+	t_mutex		*forks;
 	t_philo		*philo;
 }	t_data;
 
