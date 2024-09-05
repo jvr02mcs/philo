@@ -48,7 +48,7 @@ typedef struct s_data
 	size_t		start_time;
 	int			end;
 	t_mutex		mwrite;
-	t_mutex		m_thread;
+	pthread_t	m_thread;
 	t_fork		*forks;
 	t_philo		*philo;
 }	t_data;
