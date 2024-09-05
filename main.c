@@ -9,20 +9,10 @@ void	print_mes(t_data *d, size_t philo_n, char *mes)
 
 void	take_fork(t_philo *philo)
 {
-	if (philo->n % 2 == 0)
-	{
 		pthread_mutex_lock(&philo->data->forks[philo->l_fork].fork);
 		print_mes(philo->data, philo->n, "has taken left fork");
 		pthread_mutex_lock(&philo->data->forks[philo->r_fork].fork);
 		print_mes(philo->data, philo->n, "has taken right fork");
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->data->forks[philo->r_fork].fork);
-		print_mes(philo->data, philo->n, "has taken right fork");
-		pthread_mutex_lock(&philo->data->forks[philo->l_fork].fork);
-		print_mes(philo->data, philo->n, "has taken left fork");
-	}
 }
 
 void	eating(t_philo *philo)
@@ -31,9 +21,10 @@ void	eating(t_philo *philo)
 
 	//forkk = philo->data->forks;
 	pthread_mutex_lock(&philo->eating);
+	philo->meals++;
 	print_mes(philo->data, philo->n, "is eating");
-	ft_msleep(philo->data->time_to.eat);
 	pthread_mutex_unlock(&philo->eating);
+	ft_msleep(philo->data->time_to.eat);
 }
 
 void	sleeping(t_philo *philo)
@@ -58,14 +49,13 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (1)
-	{
-		take_fork(philo);
-		eating(philo);
-		leave_fork(philo);
-		sleeping(philo);
-		thinking(philo);
-	}
+	if (philo->n % 2 != 0)
+		ft_msleep(philo->data->time_to.eat);
+	take_fork(philo);
+	eating(philo);
+	leave_fork(philo);
+	sleeping(philo);
+	thinking(philo);
 	return(NULL);
 }
 
