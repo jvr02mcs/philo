@@ -13,29 +13,15 @@ void	take_fork(t_philo *philo)
 	{
 		pthread_mutex_lock(&philo->data->forks[philo->l_fork].fork);
 		print_mes(philo->data, philo->n, "has taken left fork");
-		pthread_mutex_lock(&philo->data->m_thread);
-		philo->data->forks[philo->l_fork].in_use = 1;
-		pthread_mutex_unlock(&philo->data->m_thread);
-		
 		pthread_mutex_lock(&philo->data->forks[philo->r_fork].fork);
 		print_mes(philo->data, philo->n, "has taken right fork");
-		pthread_mutex_lock(&philo->data->m_thread);
-		philo->data->forks[philo->r_fork].in_use = 1;
-		pthread_mutex_unlock(&philo->data->m_thread);
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->data->forks[philo->r_fork].fork);
-		pthread_mutex_lock(&philo->data->m_thread);
-		philo->data->forks[philo->r_fork].in_use = 1;
-		pthread_mutex_unlock(&philo->data->m_thread);
 		print_mes(philo->data, philo->n, "has taken right fork");
-		
 		pthread_mutex_lock(&philo->data->forks[philo->l_fork].fork);
 		print_mes(philo->data, philo->n, "has taken left fork");
-		pthread_mutex_lock(&philo->data->m_thread);
-		philo->data->forks[philo->l_fork].in_use = 1;
-		pthread_mutex_unlock(&philo->data->m_thread);
 	}
 }
 
