@@ -5,7 +5,7 @@ static void	init_forks(t_data *data)
 	size_t	i;
 
 	i = 0;
-	while (i + 1 < data->n_of_philos)
+	while (i < data->n_of_philos)
 	{
 		pthread_mutex_init(&data->forks[i], NULL);
 		i++;
