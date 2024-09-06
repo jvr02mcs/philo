@@ -37,12 +37,13 @@ typedef struct s_philo
 typedef struct s_data
 {
 	size_t		n_of_philos;
+	pthread_t	m_thread;
 	t_times		time_to;
 	size_t		meals4each;
 	size_t		start_time;
 	int			end;
 	t_mutex		mwrite;
-	pthread_t	m_thread;
+	t_mutex		death;
 	t_mutex		*forks;
 	t_philo		*philo;
 }	t_data;
