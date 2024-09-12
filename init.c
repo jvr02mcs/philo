@@ -29,10 +29,9 @@ static void	init_philo(t_data	*data)
 	{
 		data->philo[i].n = i + 1;
 		data->philo[i].meals = 0;
-		data->philo[i].finished = 0;
-		data->philo[i].last_time = 0;
-		pthread_mutex_init(&data->philo[i].eating, NULL);
+		data->philo[i].last_meal = 0;
 		asign_forks(&data->philo[i], i, data->n_of_philos);
+		data->philo[i].action = INIT;
 		data->philo[i].data = data;
 		i++;
 	}
@@ -41,13 +40,17 @@ static void	init_philo(t_data	*data)
 int	init_all(t_data	*data, int argc, char **argv)
 {
 	data->n_of_philos = ft_atol(argv[1]);
-	data->end = 0;
+	data->end = 1;
 	data->time_to = asign_times(argv);
 	if (argc == 6)
 		data->meals4each = ft_atol(argv[5]);
 	else
 		data->meals4each = 0;
 	pthread_mutex_init(&data->mwrite, NULL);
+	pthread_mutex_init(&data->eating_mutex, NULL);
+	pthread_mutex_init(&data->action_mutex, NULL);
+	pthread_mutex_init(&data->lm_mutex, NULL);
+	pthread_mutex_init(&data->iter_mutex, NULL);
 	data->philo = malloc(sizeof(t_philo) * data->n_of_philos);
 	if (!data->philo)
 		return (ft_error("Philos memory alloc failed"));

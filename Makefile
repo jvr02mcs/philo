@@ -6,9 +6,19 @@ SRC = main.c\
 	init.c\
 	utils.c\
 	error.c\
+	times.c\
+	flags.c\
 	parser.c\
+	philos.c\
 	ft_atol.c\
+	routine.c\
+	checkers.c\
+	print_mes.c\
+	take_forks.c\
+	leave_forks.c\
 	asign_times.c\
+	all_has_eaten.c\
+	action_management.c\
 
 OBJS = $(SRC:.c=.o)
 HEADERS = philo.h 
