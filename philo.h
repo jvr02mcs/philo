@@ -12,6 +12,15 @@
 
 typedef pthread_mutex_t	t_mutex;
 
+typedef enum e_action
+{
+	DEAD,
+	EAT,
+	SLEEP,
+	THINK,
+	START
+}	t_action;
+
 typedef struct s_philo
 {
 	int		n;
