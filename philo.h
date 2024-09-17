@@ -11,7 +11,7 @@
 # include <stdio.h>
 
 typedef pthread_mutex_t	t_mutex;
-typedef struct s_data t_data;
+typedef struct s_data	t_data;
 
 typedef enum e_action
 {

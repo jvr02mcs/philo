@@ -64,8 +64,9 @@ int	init_data(t_data *data, int argc, char **argv)
 		free(data->philos);
 		return (1);
 	}
-	init_philo(data);
 	init_forks(data);
+	init_philo(data);
 	pthread_mutex_init(&data->write_mtx, NULL);
+	data->start_time = get_time();
 	return (0);
 }

@@ -3,7 +3,7 @@
 static void	create_threads(t_data *data)
 {
 	t_philo	*philo;
-	int	i;
+	int		i;
 
 	i = 0;
 	philo = data->philos;
@@ -17,7 +17,7 @@ static void	create_threads(t_data *data)
 static void	join_threads(t_data *data)
 {
 	t_philo	*philo;
-	int	i;
+	int		i;
 
 	i = 0;
 	philo = data->philos;
