@@ -6,7 +6,11 @@ SRC = main.c\
 	utils.c\
 	args.c\
 	init.c\
+	philos.c\
+	eating.c\
+	utils2.c\
 	destroy.c\
+	routine.c\
 	print_mes.c\
 
 OBJS = $(SRC:.c=.o)

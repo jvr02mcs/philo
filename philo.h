@@ -11,6 +11,7 @@
 # include <stdio.h>
 
 typedef pthread_mutex_t	t_mutex;
+typedef struct s_data t_data;
 
 typedef enum e_action
 {
@@ -23,13 +24,15 @@ typedef enum e_action
 
 typedef struct s_philo
 {
-	int		n;
-	int		left;
-	int		right;
-	int		meals;
+	pthread_t	th;
+	int			n;
+	int			left;
+	int			right;
+	int			meals;
+	t_data		*data;
 }	t_philo;
 
-typedef struct s_data
+struct s_data
 {
 	int		n_philos;
 	int		t2die;
@@ -38,20 +41,26 @@ typedef struct s_data
 	int		meals4each;
 	size_t	start_time;
 	t_mutex	write_mtx;
+	t_mutex	meals_mtx;
 	t_philo	*philos;
 	t_mutex	*forks;
-}	t_data;
+};
 
 /*utils*/
 size_t	ft_strlen(char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+void	print_mes(t_data *d, size_t philo_n, char *mes);
 long	ft_atol(const char *str);
 int		ft_atoi(const char *str);
+size_t	get_time(void);
+void	ft_sleep(size_t time2);
 /*args*/
 int		args_not_valid(int argc, char **argv);
-
 /*init*/
 int		init_data(t_data *data, int argc, char **argv);
 void	destroy_data(t_data *data);
-
+/*philo*/
+void	philosophers(t_data *data);
+int		eating(t_philo *philo);
+void	*routine(void *arg);
 #endif

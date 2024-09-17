@@ -3,7 +3,6 @@
 static void	asign_args(int argc, char **argv, t_data *data)
 {
 	data->n_philos = ft_atoi(argv[1]);
-	printf("hola\n");
 	data->t2die = ft_atoi(argv[2]);
 	data->t2eat = ft_atoi(argv[3]);
 	data->t2sleep = ft_atoi(argv[4]);
@@ -34,6 +33,7 @@ static void	init_philo(t_data *data)
 		philo[i].n = i + 1;
 		philo[i].meals = 0;
 		asign_fork(&data->philos[i], data->n_philos, i);
+		data->philos[i].data = data;
 		i++;
 	}
 }
