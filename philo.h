@@ -36,10 +36,10 @@ typedef struct s_philo
 struct s_data
 {
 	int			n_philos;
-	size_t			t2die;
-	size_t			t2eat;
-	size_t			t2sleep;
-	size_t			meals4each;
+	size_t		t2die;
+	size_t		t2eat;
+	size_t		t2sleep;
+	size_t		meals4each;
 	int			end;
 	size_t		start_time;
 	t_mutex		write_mtx;

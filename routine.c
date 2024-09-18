@@ -12,8 +12,7 @@ void	*routine(void *arg)
 		if (philo_is_dead(philo))
 			return (NULL);
 		//TAKE FORKS
-		if (take_forks(philo))
-			eat();
+		eat(philo);
 		if (philo_is_dead(philo))
 		{
 			//LEAVE FORKS

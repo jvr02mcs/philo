@@ -8,11 +8,12 @@ SRC = main.c\
 	init.c\
 	check.c\
 	philos.c\
-	actions.c\
 	utils2.c\
 	destroy.c\
 	routine.c\
 	print_mes.c\
+	actions/eat.c\
+	actions/take_forks.c\
 
 OBJS = $(SRC:.c=.o)
 HEADERS = philo.h 
