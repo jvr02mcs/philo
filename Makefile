@@ -6,8 +6,9 @@ SRC = main.c\
 	utils.c\
 	args.c\
 	init.c\
+	check.c\
 	philos.c\
-	eating.c\
+	actions.c\
 	utils2.c\
 	destroy.c\
 	routine.c\

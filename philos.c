@@ -7,6 +7,8 @@ static void	create_threads(t_data *data)
 
 	i = 0;
 	philo = data->philos;
+	pthread_create(&data->check_th, NULL, check, data);
+	data->start_time = get_time();
 	while (i < data->n_philos)
 	{
 		pthread_create(&philo[i].th, NULL, &routine, &philo[i]);
@@ -21,6 +23,7 @@ static void	join_threads(t_data *data)
 
 	i = 0;
 	philo = data->philos;
+	pthread_join(data->check_th, NULL);
 	while (i < data->n_philos)
 	{
 		pthread_join(philo[i].th, NULL);

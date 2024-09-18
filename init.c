@@ -12,13 +12,13 @@ static void	asign_args(int argc, char **argv, t_data *data)
 		data->meals4each = 0;
 }
 
-static void	asign_fork(t_philo *philo, int n, int i)
+static void	asign_fork(t_data *data, int i)
 {
-	if (philo->n == 1 && n != 1)
-		philo->left = n - 1;
-	else
-		philo->left = i - 1;
-	philo->right = i;
+	int	max;
+
+	max = data->n_philos;
+	data->philos[i].left = &data->forks[i];
+	data->philos[i].right = &data->forks[(i + 1) % max];
 }
 
 static void	init_philo(t_data *data)
@@ -32,7 +32,8 @@ static void	init_philo(t_data *data)
 	{
 		philo[i].n = i + 1;
 		philo[i].meals = 0;
-		asign_fork(&data->philos[i], data->n_philos, i);
+		philo[i].last_meal = 0;
+		asign_fork(data, i);
 		data->philos[i].data = data;
 		i++;
 	}
@@ -53,20 +54,20 @@ static void	init_forks(t_data *data)
 int	init_data(t_data *data, int argc, char **argv)
 {
 	asign_args(argc, argv, data);
+	data->forks = malloc(sizeof(t_mutex) * data->n_philos);
+	if (!data->forks)
+		return (1);
 	data->philos = malloc(sizeof(t_philo) * data->n_philos);
 	if (!data->philos)
 	{
-		return (1);
-	}
-	data->forks = malloc(sizeof(t_mutex) * data->n_philos);
-	if (!data->forks)
-	{
-		free(data->philos);
+		free(data->forks);
 		return (1);
 	}
 	init_forks(data);
 	init_philo(data);
 	pthread_mutex_init(&data->write_mtx, NULL);
-	data->start_time = get_time();
+	pthread_mutex_init(&data->mutex, NULL);
+	data->end = 0;
+	data->start_time = 0;
 	return (0);
 }
