@@ -26,8 +26,12 @@ typedef struct s_philo
 {
 	int			n;
 	int			meals;
+	int			eating;
 	int			last_meal;
+	int			done;
+	size_t		death;
 	pthread_t	th;
+	pthread_t	check_th;
 	t_mutex		*left;
 	t_mutex		*right;
 	t_data		*data;
@@ -39,31 +43,33 @@ struct s_data
 	size_t		t2die;
 	size_t		t2eat;
 	size_t		t2sleep;
-	size_t		meals4each;
+	int			meals4each;
 	int			end;
 	size_t		start_time;
 	t_mutex		write_mtx;
 	t_mutex		mutex;
 	t_philo		*philos;
-	pthread_t	check_th;
 	t_mutex		*forks;
 };
 
 /*utils*/
 size_t	ft_strlen(char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-void	print_mes(t_data *d, size_t philo_n, char *mes);
+void	print_mes(t_philo *philo, char *mes);
 long	ft_atol(const char *str);
 int		ft_atoi(const char *str);
 size_t	get_time(void);
-void	ft_sleep(size_t time2);
+void	ft_sleepms(size_t time2);
 /*args*/
 int		args_not_valid(int argc, char **argv);
 /*init*/
 int		init_data(t_data *data, int argc, char **argv);
 void	destroy_data(t_data *data);
 /*actions*/
-int		take_forks(t_philo *philo);
+void	take_forks(t_philo *philo);
+void	leave_forks(t_philo *philo);
+void	eating(t_philo *philo);
+void	sleeping(t_philo *philo);
 /*philo*/
 int		philo_is_dead(t_philo *philo);
 void	*check(void *arg);

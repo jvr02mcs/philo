@@ -9,7 +9,7 @@ static void	asign_args(int argc, char **argv, t_data *data)
 	if (argc == 6)
 		data->meals4each = ft_atoi(argv[5]);
 	else
-		data->meals4each = 0;
+		data->meals4each = -1;
 }
 
 static void	asign_fork(t_data *data, int i)
@@ -33,8 +33,11 @@ static void	init_philo(t_data *data)
 		philo[i].n = i + 1;
 		philo[i].meals = 0;
 		philo[i].last_meal = 0;
+		philo[i].eating = 0;
+		philo[i].done = 0;
 		asign_fork(data, i);
 		data->philos[i].data = data;
+		philo[i].death = philo[i].data->t2die;
 		i++;
 	}
 }

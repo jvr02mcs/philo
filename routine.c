@@ -5,26 +5,14 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->n % 2 == 0)
-		ft_sleep(1);
+	philo->death = get_time() + philo->data->t2die;
+	pthread_create(&philo->check_th, NULL, check, philo);
 	while (philo->data->end == 0)
 	{
-		if (philo_is_dead(philo))
-			return (NULL);
-		//TAKE FORKS
-		eat(philo);
-		if (philo_is_dead(philo))
-		{
-			//LEAVE FORKS
-			return (NULL);
-		}
-		//EAT
-		if (philo_is_dead(philo))
-			return (NULL);
-		//SLEEP
-		if (philo_is_dead(philo))
-			return (NULL);
-		//THINK
+		eating(philo);
+		sleeping(philo);
+		print_mes(philo, "is thinking");
 	}
+	pthread_join(philo->check_th, NULL);
 	return (NULL);
 }

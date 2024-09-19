@@ -2,29 +2,17 @@
 
 static int	not_in_time(t_philo *philo)
 {
-	if (get_time() - philo->data->start_time > philo->data->t2die)
-	{
-		philo->data->end = 1;
-		print_mes(philo->data, philo->n, "died");
+	size_t actual;
+
+	actual = get_time() - philo->data->start_time - philo->last_meal;
+	//print_mes(philo->data, philo->n, "hola");
+	//printf("\n%ld --> %ld - %d\n", actual, get_time() - philo->data->start_time , philo->last_meal);
+	if (actual > philo->data->t2die)
 		return (1);
-	}
 	else
 		return (0);
 }
 
-static int	one_philo_dies(t_data *d)
-{
-	int	i;
-
-	i = 0;
-	while (i < d->n_philos)
-	{
-		if (not_in_time(&d->philos[i]))
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 int	philo_is_dead(t_philo *philo)
 {
@@ -40,18 +28,21 @@ int	philo_is_dead(t_philo *philo)
 
 void	*check(void *arg)
 {
-	t_data	*data;
+	t_philo	*philo;
 
-	data = (t_data *)arg;
-	while (1)
+	philo = (t_philo *)arg;
+	while (philo->data->end == 0)
 	{
-		pthread_mutex_lock(&data->mutex);
-		if (one_philo_dies(data))
+		if (not_in_time(philo) && philo->eating == 0)
 		{
-			usleep(100);
-			return (pthread_mutex_unlock(&data->mutex), NULL);
+			print_mes(philo, "died");
+º		}
+		if (philo->meals == philo->data->meals4each)
+		{
+			pthread_mutex_lock(&philo->data->mutex);
+			philo->done++;
+			pthread_mutex_unlock(&philo->data->mutex);
 		}
-		pthread_mutex_unlock(&data->mutex);
-		usleep(200);
 	}
+	return (NULL);
 }

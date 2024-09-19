@@ -8,7 +8,7 @@ size_t	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_sleep(size_t time2)
+void	ft_sleepms(size_t time2)
 {
 	size_t	start;
 
