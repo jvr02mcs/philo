@@ -35,8 +35,8 @@ void	*check(void *arg)
 	{
 		if (not_in_time(philo) && philo->eating == 0)
 		{
-			printf("%ld --> %d\n", get_time() - philo->data->start_time, philo->last_meal);
 			print_mes(philo, "died");
+			return (NULL);
 		}
 		if (philo->meals == philo->data->meals4each)
 		{

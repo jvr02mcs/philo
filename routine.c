@@ -8,7 +8,7 @@ void	*routine(void *arg)
 	philo->last_meal = get_time() - philo->data->start_time;
 	pthread_create(&philo->check_th, NULL, check, philo);
 	if(philo->n % 2 == 0)
-		ft_sleepms(philo->data->t2eat/2);
+		ft_sleepms(philo->data->t2eat);
 	while (philo->data->end == 0)
 	{
 		eating(philo);
