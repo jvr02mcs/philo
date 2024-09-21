@@ -9,7 +9,7 @@ void leave_forks(t_philo *philo)
 void	take_forks(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left);
-	print_mes(philo, "has taken left fork");
+	print_mes(philo, "has taken a fork");
 	pthread_mutex_lock(philo->right);
-	print_mes(philo, "has taken right fork");
+	print_mes(philo, "has taken a fork");
 }

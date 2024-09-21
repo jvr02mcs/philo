@@ -27,14 +27,13 @@ typedef struct s_philo
 	int			n;
 	int			meals;
 	int			eating;
-	int			last_meal;
+	uint64_t	last_meal;
 	int			done;
 	size_t		death;
 	pthread_t	th;
 	t_mutex		*left;
 	t_mutex		*right;
 	t_data		*data;
-	pthread_t	check_th;
 }	t_philo;
 
 struct s_data
@@ -50,6 +49,8 @@ struct s_data
 	t_mutex		mutex;
 	t_philo		*philos;
 	t_mutex		*forks;
+	pthread_t	time_th;
+	pthread_t	meals_th;
 };
 
 /*utils*/
@@ -71,7 +72,7 @@ void	leave_forks(t_philo *philo);
 void	eating(t_philo *philo);
 void	sleeping(t_philo *philo);
 /*philo*/
-int		philo_is_dead(t_philo *philo);
+void	*meals_check(void *arg);
 void	*check(void *arg);
 void	*routine(void *arg);
 void	philosophers(t_data *data);

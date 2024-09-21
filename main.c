@@ -9,7 +9,6 @@ int	main(int argc, char **argv)
 	if (init_data(&data, argc, argv))
 		return (1);
 	philosophers(&data);
-	printf("%ld\n", get_time() - data.start_time);
 	destroy_data(&data);
 	return (0);
 }

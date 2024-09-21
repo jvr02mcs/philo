@@ -6,9 +6,8 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->last_meal = get_time() - philo->data->start_time;
-	pthread_create(&philo->check_th, NULL, check, philo);
 	if(philo->n % 2 == 0)
-		ft_sleepms(philo->data->t2eat);
+		ft_sleepms(philo->data->t2eat / 2);
 	while (philo->data->end == 0)
 	{
 		eating(philo);
@@ -17,7 +16,6 @@ void	*routine(void *arg)
 			print_mes(philo, "is thinking");
 		// printf("%d routine\n", philo->n);
 	}
-	pthread_join(philo->check_th, NULL);
 	return (NULL);
 }
 
