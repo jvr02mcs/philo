@@ -31,10 +31,10 @@ typedef struct s_philo
 	int			done;
 	size_t		death;
 	pthread_t	th;
-	pthread_t	check_th;
 	t_mutex		*left;
 	t_mutex		*right;
 	t_data		*data;
+	pthread_t	check_th;
 }	t_philo;
 
 struct s_data

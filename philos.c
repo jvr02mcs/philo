@@ -26,7 +26,6 @@ static void	join_threads(t_data *data)
 	{
 		pthread_join(philo[i].th, NULL);
 		i++;
-		ft_sleepms(1);
 	}
 }
 

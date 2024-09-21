@@ -37,7 +37,7 @@ static void	init_philo(t_data *data)
 		philo[i].done = 0;
 		asign_fork(data, i);
 		data->philos[i].data = data;
-		philo[i].death = philo[i].data->t2die;
+		philo[i].death = 0;
 		i++;
 	}
 }

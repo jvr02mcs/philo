@@ -13,8 +13,11 @@ void	*routine(void *arg)
 	{
 		eating(philo);
 		sleeping(philo);
-		print_mes(philo, "is thinking");
+		if (philo->data->end == 0 && philo->death == 0)
+			print_mes(philo, "is thinking");
+		// printf("%d routine\n", philo->n);
 	}
 	pthread_join(philo->check_th, NULL);
 	return (NULL);
 }
+
