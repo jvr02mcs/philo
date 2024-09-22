@@ -11,7 +11,7 @@ void	print_mes(t_philo *philo, char *mes)
 		printf("%zu %d %s\n", get_time() - philo->data->start_time, philo->n, mes);
 		philo->data->end = 1;
 	}
-	pthread_mutex_unlock(&philo->data->write_mtx);
 	if (philo->data->end == 0)
 		printf("%zu %d %s\n", get_time() - philo->data->start_time, philo->n, mes);
+	pthread_mutex_unlock(&philo->data->write_mtx);
 }

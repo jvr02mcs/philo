@@ -12,9 +12,10 @@ SRC = main.c\
 	destroy.c\
 	routine.c\
 	print_mes.c\
+	actions/forks.c\
 	actions/eating.c\
 	actions/sleeping.c\
-	actions/forks.c\
+	actions/thinking.c\
 
 OBJS = $(SRC:.c=.o)
 HEADERS = philo.h 

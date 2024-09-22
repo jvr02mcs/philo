@@ -31,6 +31,7 @@ typedef struct s_philo
 	int			done;
 	size_t		death;
 	pthread_t	th;
+	pthread_t	time_th;
 	t_mutex		*left;
 	t_mutex		*right;
 	t_data		*data;
@@ -49,7 +50,6 @@ struct s_data
 	t_mutex		mutex;
 	t_philo		*philos;
 	t_mutex		*forks;
-	pthread_t	time_th;
 	pthread_t	meals_th;
 };
 
@@ -71,7 +71,9 @@ void	take_forks(t_philo *philo);
 void	leave_forks(t_philo *philo);
 void	eating(t_philo *philo);
 void	sleeping(t_philo *philo);
+void	thinking(t_philo *philo);
 /*philo*/
+int		not_in_time(t_philo *philo);
 void	*meals_check(void *arg);
 void	*check(void *arg);
 void	*routine(void *arg);
