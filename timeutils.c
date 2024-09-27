@@ -1,6 +1,6 @@
 #include "philo.h"
 
-size_t	get_time(void)
+uint64_t	get_time(void)
 {
 	struct timeval	tv;
 

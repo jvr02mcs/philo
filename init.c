@@ -1,76 +1,44 @@
 #include "philo.h"
 
-static void	asign_args(int argc, char **argv, t_data *data)
+int	init_data(t_data *data, char **argv)
 {
+	if (pthread_mutex_init(&data->mtx, NULL) != 0)
+		return (0);
 	data->n_philos = ft_atoi(argv[1]);
 	data->t2die = ft_atoi(argv[2]);
 	data->t2eat = ft_atoi(argv[3]);
 	data->t2sleep = ft_atoi(argv[4]);
-	if (argc == 6)
+	if (argv[5] && ft_atoi(argv[5]) > 0)
 		data->meals4each = ft_atoi(argv[5]);
 	else
-		data->meals4each = -1;
+		data->meals4each = 0;
+	data->start_time = get_time();
+	return (1);
 }
 
-static void	asign_fork(t_data *data, int i)
-{
-	int	max;
 
-	max = data->n_philos;
-	data->philos[i].left = &data->forks[i];
-	data->philos[i].right = &data->forks[(i + 1) % max];
-}
-
-static void	init_philo(t_data *data)
-{
-	int		i;
-	t_philo	*philo;
-
-	i = 0;
-	philo = data->philos;
-	while (i < data->n_philos)
-	{
-		philo[i].n = i + 1;
-		philo[i].meals = 0;
-		philo[i].last_meal = 0;
-		philo[i].eating = 0;
-		philo[i].done = 0;
-		asign_fork(data, i);
-		data->philos[i].data = data;
-		philo[i].death = 0;
-		i++;
-	}
-}
-
-static void	init_forks(t_data *data)
+int	init_philos(t_table *table)
 {
 	int	i;
 
 	i = 0;
-	while (i < data->n_philos)
+	table->philo = malloc(sizeof(t_philo) * table->data.n_philos);
+	if (!table->philo)
+		return (0);
+	while (i < table->data.n_philos)
 	{
-		pthread_mutex_init(&data->forks[i], NULL);
+		table->philo[i].n = i + 1;
+		table->philo[i].meals = 0;
+		table->philo[i].write_mtx = &table->write;
+		if (table->philo[i].meals == 0)
+		{ 
+			free(table->philo);
+			return (free_forks(table), 0);
+		}
+		table->philo[i].data = &table->data;
+		table->philo[i].last_meal = get_time();
+		//assign_fork(program, i);
 		i++;
 	}
-}
-
-int	init_data(t_data *data, int argc, char **argv)
-{
-	asign_args(argc, argv, data);
-	data->forks = malloc(sizeof(t_mutex) * data->n_philos);
-	if (!data->forks)
-		return (1);
-	data->philos = malloc(sizeof(t_philo) * data->n_philos);
-	if (!data->philos)
-	{
-		free(data->forks);
-		return (1);
-	}
-	init_forks(data);
-	init_philo(data);
-	pthread_mutex_init(&data->write_mtx, NULL);
-	pthread_mutex_init(&data->mutex, NULL);
-	data->end = 0;
-	data->start_time = 0;
-	return (0);
+	return (1);
 }

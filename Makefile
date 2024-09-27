@@ -3,19 +3,12 @@ YELLOW = \033[0;33m
 RED = \033[0;31m
 NC = \033[0m
 SRC = main.c\
-	utils.c\
 	args.c\
+	forks.c\
+	free.c\
 	init.c\
-	check.c\
-	philos.c\
-	utils2.c\
-	destroy.c\
-	routine.c\
-	print_mes.c\
-	actions/forks.c\
-	actions/eating.c\
-	actions/sleeping.c\
-	actions/thinking.c\
+	timeutils.c\
+	utils.c\
 
 OBJS = $(SRC:.c=.o)
 HEADERS = philo.h 
