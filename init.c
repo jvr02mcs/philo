@@ -16,6 +16,18 @@ int	init_data(t_data *data, char **argv)
 	return (1);
 }
 
+int	init_mutex(t_table *table, t_philo *philo)
+{
+	philo->write_mtx = &table->write;
+	if (pthread_mutex_init(&philo->eating_mtx, NULL) != 0)
+		return (0);
+	if (pthread_mutex_init(&philo->death_mtx, NULL) != 0)
+	{
+		pthread_mutex_destroy(&philo->eating_mtx);
+		return (0);
+	}
+	return (1);
+}
 
 int	init_philos(t_table *table)
 {
@@ -29,15 +41,15 @@ int	init_philos(t_table *table)
 	{
 		table->philo[i].n = i + 1;
 		table->philo[i].meals = 0;
-		table->philo[i].write_mtx = &table->write;
-		if (table->philo[i].meals == 0)
+		if (!init_mutex(table, table->philo))
 		{ 
 			free(table->philo);
-			return (free_forks(table), 0);
+			free_forks(table);
+			return (0);
 		}
 		table->philo[i].data = &table->data;
 		table->philo[i].last_meal = get_time();
-		//assign_fork(program, i);
+		assign_fork(table, i);
 		i++;
 	}
 	return (1);

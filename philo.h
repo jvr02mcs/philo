@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <pthread.h>
+#include <stdint.h>
 #include <sys/time.h>
 
 
@@ -32,7 +33,8 @@ typedef struct s_philo
 	t_mutex		*right;
 	t_mutex		*left;
 	t_mutex		*write_mtx;
-	t_mutex		eating;
+	t_mutex		eating_mtx;
+	t_mutex		death_mtx;
 }	t_philo;
 
 typedef struct s_table
