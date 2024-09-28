@@ -26,6 +26,9 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!init_all(&table, argv))
 		return (1);
-	//philosophers();	
+	//philosophers();
+	free_forks(&table);
+	free(table.philo);
+	//free_philos_mutex(&table, table.data.n_philos);
 	return (0);
 }

@@ -8,17 +8,16 @@
 #include <stdint.h>
 #include <sys/time.h>
 
-
 typedef pthread_mutex_t t_mutex;
 typedef pthread_mutex_t *hand;
 
 typedef struct s_data
 {
 	int			n_philos;
-	u_int64_t	t2die;
-	u_int64_t	t2eat;
-	u_int64_t	t2sleep;
-	u_int64_t	start_time;
+	uint64_t	t2die;
+	uint64_t	t2eat;
+	uint64_t	t2sleep;
+	uint64_t	start_time;
 	int			meals4each;
 	t_mutex		mtx;
 }	t_data;
@@ -59,7 +58,7 @@ int		init_philos(t_table *table);
 
 //free
 void		free_forks(t_table *table);
-
+void		free_philos_mutex(t_table *table, int n);
 //args
 int			args_not_valid(int argc, char **argv);
 

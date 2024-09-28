@@ -29,6 +29,22 @@ int	init_mutex(t_table *table, t_philo *philo)
 	return (1);
 }
 
+//probar con i + 1 % n
+
+void	asign_fork(t_table *table, int i)
+{
+	int	n;
+
+	n = table->data.n_philos;
+	table->philo[i].right = &table->forks[i];
+	if (n == 1)
+		table->philo[i].left = NULL;
+	else if (i == 0)
+		table->philo[i].left = &table->forks[n - 1];
+	else
+		table->philo[i].left = &table->forks[i - 1];
+}
+
 int	init_philos(t_table *table)
 {
 	int	i;
@@ -39,17 +55,18 @@ int	init_philos(t_table *table)
 		return (0);
 	while (i < table->data.n_philos)
 	{
-		table->philo[i].n = i + 1;
-		table->philo[i].meals = 0;
 		if (!init_mutex(table, table->philo))
-		{ 
+		{
+			free_philos_mutex(table, i);
 			free(table->philo);
 			free_forks(table);
 			return (0);
 		}
+		table->philo[i].n = i + 1;
+		table->philo[i].meals = 0;
 		table->philo[i].data = &table->data;
 		table->philo[i].last_meal = get_time();
-		assign_fork(table, i);
+		asign_fork(table, i);
 		i++;
 	}
 	return (1);
