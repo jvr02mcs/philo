@@ -8,6 +8,7 @@ int	init_all(t_table *table, char **argv)
 		return (0);
 	if (!init_philos(table))
 	{
+		pthread_mutex_destroy(&table->write);
 		return (0);
 	}
 	return (1);
