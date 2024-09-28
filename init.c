@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jrubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/28 16:32:07 by jrubio-m          #+#    #+#             */
+/*   Updated: 2024/09/28 16:32:11 by jrubio-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	init_data(t_data *data, char **argv)
@@ -12,7 +24,7 @@ int	init_data(t_data *data, char **argv)
 		data->meals4each = ft_atoi(argv[5]);
 	else
 		data->meals4each = 0;
-	data->start_time = get_time();
+	data->start_time = 0;
 	return (1);
 }
 
@@ -55,7 +67,7 @@ int	init_philos(t_table *table)
 		return (0);
 	while (i < table->data.n_philos)
 	{
-		if (!init_mutex(table, table->philo))
+		if (!init_mutex(table, &table->philo[i]))
 		{
 			free_philos_mutex(table, i);
 			free(table->philo);

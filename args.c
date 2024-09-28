@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   args.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jrubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/28 16:31:34 by jrubio-m          #+#    #+#             */
+/*   Updated: 2024/09/28 16:31:40 by jrubio-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static	int	arg_not_int(long n)
@@ -37,7 +49,7 @@ int	args_not_valid(int argc, char **argv)
 			return (printf("\033[0;31mInvalid args\n\033[0m"));
 		if (arg_not_digit(argv[i]) || arg_not_int(ft_atol(argv[i])))
 			return (printf("\033[0;31mInvalid args\n\033[0m"));
-		if (i > 1 && ft_atol(argv[i]) < 1)
+		if (i > 1 && i < 5 && ft_atol(argv[i]) < 1)
 			return (printf("\033[0;31mInvalid time\n\033[0m"));
 		i++;
 	}

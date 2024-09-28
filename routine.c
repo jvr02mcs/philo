@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   timeutils.c                                        :+:      :+:    :+:   */
+/*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/28 16:32:38 by jrubio-m          #+#    #+#             */
-/*   Updated: 2024/09/28 16:32:45 by jrubio-m         ###   ########.fr       */
+/*   Created: 2024/09/28 16:53:48 by jrubio-m          #+#    #+#             */
+/*   Updated: 2024/09/28 16:53:51 by jrubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-uint64_t	get_time(void)
+void	*routine(void *arg)
 {
-	struct timeval	tv;
+	t_philo *philo;
 
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-void	ft_sleepms(size_t time2)
-{
-	size_t	start;
-
-	start = 0;
-	start = get_time();
-	while ((get_time() - start) < time2)
-		usleep(time2 / 1000);
+	philo = (t_philo *)arg;
+	//if (philo->data.n_philos == 1)
+	//{
+	//	return (NULL);
+	//}
+	int i = 0;
+	philo->data->start_time = get_time();
+	if (philo->n % 2 == 0)
+		ft_sleepms(philo->data->t2eat / 2);
+	while (i < 2)
+	{
+		eating(philo);
+		sleeping(philo);
+		thinking(philo);
+	i++;
+	}
+	return (NULL);
 }

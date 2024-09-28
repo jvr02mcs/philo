@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   timeutils.c                                        :+:      :+:    :+:   */
+/*   print_mes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/28 16:32:38 by jrubio-m          #+#    #+#             */
-/*   Updated: 2024/09/28 16:32:45 by jrubio-m         ###   ########.fr       */
+/*   Created: 2024/09/28 16:32:32 by jrubio-m          #+#    #+#             */
+/*   Updated: 2024/09/28 16:32:36 by jrubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-uint64_t	get_time(void)
+void	printmes(t_philo *philo, char *mes)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-void	ft_sleepms(size_t time2)
-{
-	size_t	start;
-
-	start = 0;
-	start = get_time();
-	while ((get_time() - start) < time2)
-		usleep(time2 / 1000);
+	pthread_mutex_lock(philo->write_mtx);
+	printf("%zu %d %s\n", get_time() - philo->data->start_time, philo->n, mes);
+	pthread_mutex_unlock(philo->write_mtx);
 }

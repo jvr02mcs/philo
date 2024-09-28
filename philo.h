@@ -1,15 +1,26 @@
-#ifndef PHILO_H
-#define PHILO_H
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <pthread.h>
-#include <stdint.h>
-#include <sys/time.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jrubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/28 16:32:27 by jrubio-m          #+#    #+#             */
+/*   Updated: 2024/09/28 16:32:30 by jrubio-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-typedef pthread_mutex_t t_mutex;
-typedef pthread_mutex_t *hand;
+#ifndef PHILO_H
+# define PHILO_H
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <limits.h>
+# include <pthread.h>
+# include <stdint.h>
+# include <sys/time.h>
+
+typedef pthread_mutex_t	t_mutex;
 
 typedef struct s_data
 {
@@ -52,14 +63,24 @@ size_t		ft_strlen(char *str);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 
 //init
-int		init_data(t_data *data, char **argv);
-int		init_forks(t_table *table);
-int		init_philos(t_table *table);
+int			init_data(t_data *data, char **argv);
+int			init_forks(t_table *table);
+int			init_philos(t_table *table);
 
 //free
+void		free_all(t_table *table);
 void		free_forks(t_table *table, int n);
 void		free_philos_mutex(t_table *table, int n);
 //args
 int			args_not_valid(int argc, char **argv);
+//program
+void		printmes(t_philo *philo, char *mes);
+void		*routine(void *arg);
+//	actions
+int			take_forks(t_philo *philo);
+void		eating(t_philo *philo);
+void		sleeping(t_philo *philo);
+void		thinking(t_philo *philo);
 
+void		*monitor(void *arg);
 #endif
