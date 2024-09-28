@@ -59,7 +59,7 @@ int	init_philos(t_table *table)
 		{
 			free_philos_mutex(table, i);
 			free(table->philo);
-			free_forks(table);
+			free_forks(table, table->data.n_philos);
 			return (0);
 		}
 		table->philo[i].n = i + 1;

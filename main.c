@@ -8,6 +8,8 @@ int	init_all(t_table *table, char **argv)
 		return (0);
 	if (!init_philos(table))
 	{
+		free_forks(table, table->data.n_philos);
+		pthread_mutex_destroy(&table->data.mtx);
 		pthread_mutex_destroy(&table->write);
 		return (0);
 	}
@@ -28,7 +30,7 @@ int	main(int argc, char **argv)
 	if (!init_all(&table, argv))
 		return (1);
 	//philosophers();
-	free_forks(&table);
+	free_forks(&table, table.data.n_philos);
 	free(table.philo);
 	//free_philos_mutex(&table, table.data.n_philos);
 	return (0);

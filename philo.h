@@ -57,7 +57,7 @@ int		init_forks(t_table *table);
 int		init_philos(t_table *table);
 
 //free
-void		free_forks(t_table *table);
+void		free_forks(t_table *table, int n);
 void		free_philos_mutex(t_table *table, int n);
 //args
 int			args_not_valid(int argc, char **argv);

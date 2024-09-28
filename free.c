@@ -19,12 +19,12 @@ void	free_philos_mutex(t_table *table, int n)
 }
 
 
-void	free_forks(t_table *table)
+void	free_forks(t_table *table, int n)
 {
 	int	i;
 
 	i = 0;
-	while (i < table->data.n_philos)
+	while (i < n)
 	{
 		pthread_mutex_destroy(&table->forks[i]);
 		i++;
