@@ -6,7 +6,7 @@
 /*   By: jrubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:32:27 by jrubio-m          #+#    #+#             */
-/*   Updated: 2024/09/28 16:32:30 by jrubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/29 20:17:50 by jrubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_data
 	uint64_t	t2sleep;
 	uint64_t	start_time;
 	int			meals4each;
+	int			someone_dead;
 	t_mutex		mtx;
 }	t_data;
 
@@ -82,5 +83,8 @@ void		eating(t_philo *philo);
 void		sleeping(t_philo *philo);
 void		thinking(t_philo *philo);
 
+int			is_everyone_alive(t_philo *philo);
+int			someone_is_dead(t_data *data);
 void		*monitor(void *arg);
+
 #endif
