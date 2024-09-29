@@ -6,7 +6,7 @@
 /*   By: jrubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:32:14 by jrubio-m          #+#    #+#             */
-/*   Updated: 2024/09/29 21:38:03 by jrubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:55:33 by jrubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int argc, char **argv)
 
 	if (args_not_valid(argc, argv))
 		return (1);
-	if (ft_atol(argv[5]) == 0)
+	if (argv[5] && ft_atol(argv[5]) == 0)
 			return (0);
 	if (!init_all(&table, argv))
 		return (1);

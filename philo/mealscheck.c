@@ -27,7 +27,7 @@ void	*meals_check(void *arg)
 	t_table	*table;
 
 	table = (t_table *)arg;
-	while (1)
+	while (!someone_is_dead(&table->data))
 	{
 		if (everyone_eaten(table, table->data.n_philos))
 		{
