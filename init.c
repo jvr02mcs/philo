@@ -6,7 +6,7 @@
 /*   By: jrubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:32:07 by jrubio-m          #+#    #+#             */
-/*   Updated: 2024/09/28 16:32:11 by jrubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:09:05 by jrubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	init_data(t_data *data, char **argv)
 	if (argv[5] && ft_atoi(argv[5]) > 0)
 		data->meals4each = ft_atoi(argv[5]);
 	else
-		data->meals4each = 0;
+		data->meals4each = -1;
 	data->start_time = 0;
 	return (1);
 }

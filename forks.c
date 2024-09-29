@@ -6,7 +6,7 @@
 /*   By: jrubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:31:50 by jrubio-m          #+#    #+#             */
-/*   Updated: 2024/09/29 20:20:38 by jrubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:13:21 by jrubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	init_forks(t_table *table)
 
 int	take_forks(t_philo *philo)
 {
-	if (!is_everyone_alive(philo))
+	if (!everyone_okey(philo))
 		return (0);
 	pthread_mutex_lock(philo->left);
 	printmes(philo, "has taken l fork");

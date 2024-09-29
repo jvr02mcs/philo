@@ -8,7 +8,8 @@ SRC = main.c\
 	forks.c\
 	free.c\
 	init.c\
-	monitor.c\
+	timecheck.c\
+	mealscheck.c\
 	printmes.c\
 	routine.c\
 	timeutils.c\

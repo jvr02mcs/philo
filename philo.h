@@ -6,7 +6,7 @@
 /*   By: jrubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:32:27 by jrubio-m          #+#    #+#             */
-/*   Updated: 2024/09/29 20:17:50 by jrubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:31:12 by jrubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,9 @@ void		eating(t_philo *philo);
 void		sleeping(t_philo *philo);
 void		thinking(t_philo *philo);
 
-int			is_everyone_alive(t_philo *philo);
+int			everyone_okey(t_philo *philo);
 int			someone_is_dead(t_data *data);
-void		*monitor(void *arg);
+void		*time_check(void *arg);
+void		*meals_check(void *arg);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jrubio-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:32:32 by jrubio-m          #+#    #+#             */
-/*   Updated: 2024/09/29 20:22:02 by jrubio-m         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:13:49 by jrubio-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void    printmes(t_philo *philo, char *mes)
 {
-	if (!is_everyone_alive(philo))
+	if (!everyone_okey(philo))
 		return ;
 	pthread_mutex_lock(philo->write_mtx);
 	printf("%lld %d %s\n", get_time() - philo->data->start_time, philo->n, mes);
